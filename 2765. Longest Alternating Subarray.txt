@@ -1,0 +1,38 @@
+class Solution {
+    public int alternatingSubarray(int[] nums) {
+        // max counter
+        int max = 0;
+
+        // keep track of current index for odd[s1-s0] false and even[s2-s1] true
+        boolean flag;
+
+        for(int i= 0; i<nums.length ; i++){
+
+            // initialize cur max
+            int cur = 1;
+            // initialize flag
+            flag = false;
+
+            // iterate while a valid subarray
+            for(int l=i,r= i+1; r<nums.length ; r++,l++){
+
+                // for validating diff
+                int target = flag ? -1 : 1;
+                if(nums[r]-nums[l] == target){
+                    // increment counter
+                    cur++;
+                    // reverse flag
+                    flag = !flag;
+                    continue;
+                }
+                // break loop if not alternating pattern
+                break;
+            }
+            // set the max value
+            max = Math.max(cur,max);
+        }
+
+        // if no diff is 1 or -1 then return -1[no occurences]
+        return max==1? -1 : max;
+    }
+}
