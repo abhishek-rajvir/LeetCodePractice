@@ -56,3 +56,64 @@ class Solution {
         recursiveSum(node.right, level + 1, al);
     }
 }
+
+// Solution 2  O(n) using queue
+Runtime-9ms
+Beats- 61.29%
+
+Memory- 49.10MB
+Beats- 89.29%
+
+
+class Solution {
+    public int maxLevelSum(TreeNode root) {
+
+        TreeNode temp = root;
+
+        // a linked queue to store the nodes at each level
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+
+        int level = 1;
+        int bestLevel = 1;
+        // least default value;
+        int maxSum = Integer.MIN_VALUE;
+
+        // iterate if q exists
+        while (!q.isEmpty()) {
+
+            // for sum per level
+            int levelSum = 0;   
+            // size of queue at current level
+            int size = q.size();
+
+            // iterate till all nodes from current level are computed from queue
+            while (size > 0) {
+
+                // root node for current level
+                TreeNode n = q.poll();
+
+                // append node val
+                levelSum += n.val;
+
+                // add child nodes for next level
+                if (n.left != null)
+                    q.add(n.left);
+                if (n.right != null)
+                    q.add(n.right);
+                size--;
+            }
+
+            // compute current max level
+            if (maxSum < levelSum) {
+                maxSum = levelSum;
+                bestLevel = level;
+            }
+            level++;
+        }
+
+
+        // return maxLevel
+        return bestLevel;
+    }
+}
